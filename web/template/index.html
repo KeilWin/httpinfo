@@ -6,10 +6,14 @@
     <title>Http-info</title>
 </head>
 <body>
-    <p><strong>Method</strong>: {{.Method}}</p>
-    <p><strong>Url</strong>: {{.Url}}</p>
+    <p><strong>Address</strong>: {{.RemoteAddr}}</p>
     <p><strong>Proto</strong>: {{.Proto}}</p>
-    <ul aria-label="Headers: ">
+    <p><strong>Method</strong>: {{.Method}}</p>
+    <p><strong>Host</strong>: {{.Host}}</p>
+    <p><strong>Url</strong>: {{.Url}}</p>
+    <p><strong>Request URI</strong>: {{.RequestURI}}</p>
+    <p><strong>Header</strong>:</p>
+    <ul>
         {{range $key, $value := .Header}}
             <li><strong>{{$key}}</strong>: 
                 {{range $value}}
@@ -20,8 +24,5 @@
     </ul>
     <p><strong>Body</strong>: {{.Body}}</p>
     <p><strong>Content Length</strong>: {{.ContentLength}}</p>
-    <p><strong>Host</strong>: {{.Host}}</p>
-    <p><strong>Address</strong>: {{.RemoteAddr}}</p>
-    <p><strong>Request URI</strong>: {{.RequestURI}}</p>
 </body>
 </html>
