@@ -37,17 +37,31 @@ type Request struct {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	data, err := io.ReadAll(r.Body)
-	if err != nil {
+	limitedReader := io.LimitReader(r.Body, 1000)
+
+	buffer := make([]byte, 1000)
+	n, err := limitedReader.Read(buffer)
+	if err != nil && err != io.EOF {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	header := make(map[string][]string, 50)
+	counter := 0
+	for key, value := range r.Header {
+		header[key] = value
+		counter++
+		if counter > len(header)-1 {
+			break
+		}
+	}
+
 	req := Request{
 		Method:        r.Method,
 		Url:           r.URL.String(),
 		Proto:         r.Proto,
 		Header:        r.Header,
-		Body:          string(data),
+		Body:          string(buffer[:n]),
 		ContentLength: r.ContentLength,
 		Host:          r.Host,
 		RemoteAddr:    r.RemoteAddr,
