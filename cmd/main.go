@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"html/template"
 	"io"
 	"log"
@@ -10,16 +11,28 @@ import (
 const defaultAppPort = ":8080"
 const defaultIndexTemplate = "web/template/index.html"
 
-var indexTemplate = template.Must(template.ParseFiles(defaultIndexTemplate))
+var indexTemplate *template.Template
 
 func main() {
+	var isTls bool
+	var indexTemplatePath string
+	flag.BoolVar(&isTls, "tls", false, "Using tls")
+	flag.StringVar(&indexTemplatePath, "index-template-path", defaultIndexTemplate, "Index template path")
+	flag.Parse()
+
+	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath))
+
 	var appPort = defaultAppPort
 
 	mux := http.NewServeMux()
 
 	mux.Handle("/", http.HandlerFunc(HomeHandler))
 
-	log.Fatal(http.ListenAndServe(appPort, mux))
+	if isTls {
+		log.Fatal(http.ListenAndServeTLS(appPort, "/app/server.crt", "/app/server.key", mux))
+	} else {
+		log.Fatal(http.ListenAndServe(appPort, mux))
+	}
 }
 
 type Request struct {
