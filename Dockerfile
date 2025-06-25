@@ -1,4 +1,4 @@
-FROM golang:1.23
+FROM golang:1.23-alpine:3.22 as builder
 
 WORKDIR /app
 
@@ -10,7 +10,11 @@ COPY ./cmd ./cmd
 COPY ./internal ./internal
 COPY ./web ./web
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /httpinfo ./cmd
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/httpinfo ./cmd
+
+FROM alpine:3.22
+
+COPY --from=builder /go/bin/httpinfo .
 
 EXPOSE 8080
 
