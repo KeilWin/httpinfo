@@ -20,3 +20,5 @@
 *.env
 *.db
 *.tar
+
+ssl/
