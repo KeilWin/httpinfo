@@ -17,15 +17,23 @@ const defaultKeyPath = "/app/server.key"
 var indexTemplate *template.Template
 
 func main() {
+	var appPort string
 	var crtPath string
 	var keyPath string
 	var indexTemplatePath string
-	var appPort string
 	flag.StringVar(&appPort, "app-port", defaultAppPort, "Application port")
 	flag.StringVar(&crtPath, "crt-path", defaultCrtPath, "Certificate SSL path")
 	flag.StringVar(&keyPath, "key-path", defaultKeyPath, "Key SSL path")
 	flag.StringVar(&indexTemplatePath, "index-template-path", defaultIndexTemplate, "Index template path")
 	flag.Parse()
+
+	if _, err := os.Stat(crtPath); err != nil {
+		log.Fatalf("Certificate SLL file not exists: %s", indexTemplatePath)
+	}
+
+	if _, err := os.Stat(keyPath); err != nil {
+		log.Fatalf("Key SLL file not exists: %s", keyPath)
+	}
 
 	if _, err := os.Stat(indexTemplatePath); err != nil {
 		log.Fatalf("Template file not exists: %s", indexTemplatePath)
