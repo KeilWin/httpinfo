@@ -6,33 +6,38 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 const defaultAppPort = ":8080"
 const defaultIndexTemplate = "web/template/index.html"
+const defaultCrtPath = "/app/server.crt"
+const defaultKeyPath = "/app/server.key"
 
 var indexTemplate *template.Template
 
 func main() {
-	var isTls bool
+	var crtPath string
+	var keyPath string
 	var indexTemplatePath string
-	flag.BoolVar(&isTls, "tls", false, "Using tls")
+	var appPort string
+	flag.StringVar(&appPort, "app-port", defaultAppPort, "Application port")
+	flag.StringVar(&crtPath, "crt-path", defaultCrtPath, "Certificate SSL path")
+	flag.StringVar(&keyPath, "key-path", defaultKeyPath, "Key SSL path")
 	flag.StringVar(&indexTemplatePath, "index-template-path", defaultIndexTemplate, "Index template path")
 	flag.Parse()
 
-	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath))
+	if _, err := os.Stat(indexTemplatePath); err != nil {
+		log.Fatalf("Template file not exists: %s", indexTemplatePath)
+	}
 
-	var appPort = defaultAppPort
+	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath))
 
 	mux := http.NewServeMux()
 
 	mux.Handle("/", http.HandlerFunc(HomeHandler))
 
-	if isTls {
-		log.Fatal(http.ListenAndServeTLS(appPort, "/app/server.crt", "/app/server.key", mux))
-	} else {
-		log.Fatal(http.ListenAndServe(appPort, mux))
-	}
+	log.Fatal(http.ListenAndServeTLS(appPort, crtPath, keyPath, mux))
 }
 
 type Request struct {
