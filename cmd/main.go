@@ -11,8 +11,8 @@ import (
 
 const defaultAppPort = ":8080"
 const defaultIndexTemplate = "web/template/index.html"
-const defaultCrtPath = "/app/server.crt"
-const defaultKeyPath = "/app/server.key"
+const defaultCrtPath = "ssl/server.crt"
+const defaultKeyPath = "ssl/server.key"
 
 var indexTemplate *template.Template
 

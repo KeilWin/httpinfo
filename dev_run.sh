@@ -1,0 +1,1 @@
+go run ./cmd --app-port :8080
