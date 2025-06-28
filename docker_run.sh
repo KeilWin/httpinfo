@@ -1,0 +1,1 @@
+docker run -d -v ./ssl:/etc/ssl -p 8080:8080 --name httpinfo-dev app:latest

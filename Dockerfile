@@ -1,6 +1,6 @@
 FROM golang:1.23-alpine3.22 as builder
 
-WORKDIR /app
+WORKDIR /build
 
 COPY ./go.mod ./
 
@@ -8,14 +8,18 @@ RUN go mod download
 
 COPY ./cmd ./cmd
 COPY ./internal ./internal
-COPY ./web ./web
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/httpinfo ./cmd
+WORKDIR /build/cmd
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o httpinfo
 
 FROM alpine:3.22
 
-COPY --from=builder /go/bin/httpinfo .
+WORKDIR /app
+
+COPY --from=builder  /build/cmd/httpinfo .
+COPY ./web ./web
 
 EXPOSE 8080
 
-CMD ["/httpinfo", "--tls", "--index-template-path", "/app/web/template/index.html"]
+CMD ["/app/httpinfo"]

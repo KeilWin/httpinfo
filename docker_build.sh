@@ -1,1 +1,1 @@
-docker build --tag app .
+docker build --tag app:latest .

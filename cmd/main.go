@@ -11,8 +11,8 @@ import (
 
 const defaultAppPort = ":8080"
 const defaultIndexTemplate = "web/template/index.html"
-const defaultCrtPath = "ssl/server.crt"
-const defaultKeyPath = "ssl/server.key"
+const defaultCrtPath = "/etc/ssl/server.crt"
+const defaultKeyPath = "/etc/ssl/server.key"
 
 var indexTemplate *template.Template
 
@@ -27,16 +27,16 @@ func main() {
 	flag.StringVar(&indexTemplatePath, "index-template-path", defaultIndexTemplate, "Index template path")
 	flag.Parse()
 
+	if _, err := os.Stat(indexTemplatePath); err != nil {
+		log.Fatalf("Template file not exists: %s", indexTemplatePath)
+	}
+
 	if _, err := os.Stat(crtPath); err != nil {
-		log.Fatalf("Certificate SLL file not exists: %s", indexTemplatePath)
+		log.Fatalf("Certificate SLL file not exists: %s", crtPath)
 	}
 
 	if _, err := os.Stat(keyPath); err != nil {
 		log.Fatalf("Key SLL file not exists: %s", keyPath)
-	}
-
-	if _, err := os.Stat(indexTemplatePath); err != nil {
-		log.Fatalf("Template file not exists: %s", indexTemplatePath)
 	}
 
 	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath))
