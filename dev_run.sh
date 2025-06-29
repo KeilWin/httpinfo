@@ -1,1 +1,1 @@
-go run ./cmd --app-port :8080
+go run ./cmd --app-port :8080 --crt-path ./ssl/server.crt --key-path ./ssl/server.key
