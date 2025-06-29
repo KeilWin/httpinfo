@@ -20,6 +20,8 @@ WORKDIR /app
 COPY --from=builder  /build/cmd/httpinfo .
 COPY ./web ./web
 
+RUN mkdir stats
+
 EXPOSE 8080
 
 CMD ["/app/httpinfo"]

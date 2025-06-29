@@ -1,1 +1,1 @@
-docker build --tag app:latest .
+docker build --tag strumeg/httpinfo:latest .
