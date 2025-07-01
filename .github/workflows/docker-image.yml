@@ -2,8 +2,10 @@ name: Docker Image CI
 
 on:
   push:
+    paths-ignore: "**.md"
     branches: [ "main" ]
   pull_request:
+    paths-ignore: "**.md"
     branches: [ "main" ]
 
 jobs:
