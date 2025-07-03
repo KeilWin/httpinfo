@@ -33,7 +33,7 @@ func main() {
 	flag.StringVar(&crtPath, "crt-path", defaultCrtPath, "Certificate SSL path")
 	flag.StringVar(&keyPath, "key-path", defaultKeyPath, "Key SSL path")
 	flag.StringVar(&indexTemplatePath, "index-template-path", defaultIndexTemplate, "Index template path")
-	flag.StringVar(&dumpPath, "dump-path", defaultDumpPath, "Dump path")
+	flag.StringVar(&dumpPath, "dump-path", defaultDumpPath, "Dump statistic path")
 	flag.Parse()
 
 	if _, err := os.Stat(indexTemplatePath); err != nil {
