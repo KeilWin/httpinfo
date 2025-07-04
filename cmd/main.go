@@ -14,6 +14,9 @@ import (
 	"syscall"
 )
 
+const defaultHomeHandlerBodyLimitInBytes int64 = 1000
+const defaultHomeHandlerHeadersCountLimit int64 = 1000
+
 const defaultAppPort = ":8080"
 const defaultIndexTemplate = "web/template/index.html"
 const defaultCrtPath = "/etc/ssl/server.crt"
@@ -130,20 +133,30 @@ func FaviconHandler(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Not found", http.StatusNotFound)
 }
 
+func GetHomeHandlerBodyBytesLimitInBytes() int64 {
+	return defaultHomeHandlerBodyLimitInBytes
+}
+
+func GetHomeHandlerHeadersCountLimit() int64 {
+	return defaultHomeHandlerHeadersCountLimit
+}
+
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	serverStats.RequestedCounter.Add(1)
 
-	limitedReader := io.LimitReader(r.Body, 1000)
+	bodyLimitInBytes := GetHomeHandlerBodyBytesLimitInBytes()
+	limitedReader := io.LimitReader(r.Body, bodyLimitInBytes)
 
-	buffer := make([]byte, 1000)
+	buffer := make([]byte, bodyLimitInBytes)
 	n, err := limitedReader.Read(buffer)
 	if err != nil && err != io.EOF {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	header := make(map[string][]string, 50)
+	headersCountLimit := GetHomeHandlerHeadersCountLimit()
+	header := make(map[string][]string, headersCountLimit)
 	counter := 0
 	for key, value := range r.Header {
 		header[key] = value
