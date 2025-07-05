@@ -7,7 +7,7 @@
     <title>Http-info</title>
 </head>
 <body>
-    <p><strong>Address</strong>: {{.RemoteAddr}}</p>
+    <p><strong>Address</strong>: <div id="remoteAddr">{{.RemoteAddr}}<div></p>
     <p><strong>Proto</strong>: {{.Proto}}</p>
     <p><strong>Method</strong>: {{.Method}}</p>
     <p><strong>Host</strong>: {{.Host}}</p>
@@ -26,5 +26,7 @@
     <p><strong>Body</strong>: {{.Body}}</p>
     <p><strong>Content Length</strong>: {{.ContentLength}}</p>
     <p><strong>Page requested</strong>: {{.RequestedCounter}}</p>
+    <p><strong>Ip info</strong>: <pre><code id="ipInfo"></code><pre></p>
+    <script src="/static/script/index.js"></script>
 </body>
 </html>
