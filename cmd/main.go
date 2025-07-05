@@ -64,8 +64,10 @@ func main() {
 	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath))
 
 	mux := http.NewServeMux()
+	fs := http.FileServer(http.Dir("./web/static"))
 
 	mux.Handle("/", http.HandlerFunc(HomeHandler))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 	mux.Handle("/favicon.ico", http.HandlerFunc(FaviconHandler))
 
 	sigs := make(chan os.Signal, 1)
