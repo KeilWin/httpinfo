@@ -17,7 +17,15 @@ func main() {
 	var appPort string
 	var crtPath string
 	var keyPath string
+
 	var indexTemplatePath string
+	appTemplatePath := defaultAppTemplate
+	headerTemplatePath := defaultHeaderTemplate
+	contentTemplatePath := defaultContentTemplate
+	footerTemplatePath := defaultFooterTemplate
+	leftSideTemplatePath := defaultLeftSideTemplate
+	rigthSideTemplatePath := defaultRightSideTemplate
+
 	var dumpPath string
 	flag.StringVar(&appPort, "app-port", defaultAppPort, "Application port")
 	flag.StringVar(&crtPath, "crt-path", defaultCrtPath, "Certificate SSL path")
@@ -26,8 +34,29 @@ func main() {
 	flag.StringVar(&dumpPath, "dump-path", defaultDumpPath, "Dump statistic path")
 	flag.Parse()
 
-	if _, err := os.Stat(indexTemplatePath); err != nil {
-		log.Fatalf("Template file not exists: %s", indexTemplatePath)
+	{
+		if _, err := os.Stat(indexTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", indexTemplatePath)
+		}
+
+		if _, err := os.Stat(appTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", appTemplatePath)
+		}
+		if _, err := os.Stat(headerTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", headerTemplatePath)
+		}
+		if _, err := os.Stat(contentTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", contentTemplatePath)
+		}
+		if _, err := os.Stat(footerTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", footerTemplatePath)
+		}
+		if _, err := os.Stat(leftSideTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", leftSideTemplatePath)
+		}
+		if _, err := os.Stat(rigthSideTemplatePath); err != nil {
+			log.Fatalf("Template file not exists: %s", rigthSideTemplatePath)
+		}
 	}
 
 	if _, err := os.Stat(crtPath); err != nil {
@@ -61,7 +90,7 @@ func main() {
 		serverStats.RequestedCounter.Store(serverStatsForDump.RequestedCounter)
 	}
 
-	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath))
+	indexTemplate = template.Must(template.ParseFiles(indexTemplatePath, appTemplatePath, headerTemplatePath, contentTemplatePath, footerTemplatePath, leftSideTemplatePath, rigthSideTemplatePath))
 
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("./web/static"))

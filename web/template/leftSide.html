@@ -1,0 +1,24 @@
+{{define "leftSide"}}
+<div class="leftSide">
+    <div class="requestInfo">
+        <p><strong>Address</strong>: <div id="remoteAddr">{{.RemoteAddr}}</div></p>
+        <p><strong>Proto</strong>: {{.Proto}}</p>
+        <p><strong>Method</strong>: {{.Method}}</p>
+        <p><strong>Host</strong>: {{.Host}}</p>
+        <p><strong>Url</strong>: {{.Url}}</p>
+        <p><strong>Request URI</strong>: {{.RequestURI}}</p>
+        <p><strong>Header</strong>:</p>
+        <ul>
+            {{range $key, $value := .Header}}
+                <li><strong>{{$key}}</strong>: 
+                    {{range $value}}
+                        {{.}}
+                    {{end}}
+                </li>
+            {{end}}
+        </ul>
+        <p><strong>Body</strong>: {{.Body}}</p>
+        <p><strong>Content Length</strong>: {{.ContentLength}}</p>
+    </div>
+</div>
+{{end}}

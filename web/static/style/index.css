@@ -1,0 +1,28 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5%;
+    margin: 25px;
+}
+
+.leftSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.rightSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+}

@@ -51,7 +51,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		RequestedCounter: serverStats.RequestedCounter.Load(),
 	}
 
-	indexTemplate.Execute(w, req)
+	indexTemplate.ExecuteTemplate(w, "index", req)
 
 	w.Header().Set("Connection", "close")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
