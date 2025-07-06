@@ -15,5 +15,5 @@ jobs:
       run: docker build . --file Dockerfile --tag strumeg/httpinfo:latest
     - name: Push image to Docker Hub
       run: |
-        "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+        echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
         docker push strumeg/httpinfo:latest
