@@ -16,11 +16,24 @@ function CreateRequestUrl(ip) {
 }
 
 function SetIpInfo(ipInfo) {
-    const ipInfoId = "ipInfo";
-    let ipElement = document.getElementById(ipInfoId);
-    if (!ipElement)
-        throw new Error("No element with id.", ipInfoId);
-    ipElement.textContent = JSON.stringify(ipInfo, undefined, 2);
+    const countryNameId = "countryName";
+    let countryNameElement = document.getElementById(countryNameId);
+    if (!countryNameElement)
+        throw new Error("No element with id.", countryNameId);
+    
+    const countryCodeId = "countryCode";
+    let countryCodeElement = document.getElementById(countryCodeId);
+    if (!countryCodeElement)
+        throw new Error("No element with id.", countryCodeId);
+    
+    const ispId = "internetServiceProvider";
+    let ispElement = document.getElementById(ispId);
+    if (!ispElement)
+        throw new Error("No element with id.", ispId);
+
+    countryNameElement.textContent = ipInfo["country_name"];
+    countryCodeElement.textContent = ipInfo["country_code2"];
+    ispElement.textContent = ipInfo["isp"];
 }
 
 async function GetIpInfoAsync(ipElementId) {
@@ -29,6 +42,8 @@ async function GetIpInfoAsync(ipElementId) {
     fetch(url).then(function(response) {
         return response.json();
       }).then(function(data) {
+        if (data["response_code"] !== "200")
+            throw new Error("Bad response code from iplocation.", data["response_code"]);
         SetIpInfo(data);
         return data;
       }).catch(function(err) {

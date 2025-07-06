@@ -1,7 +1,9 @@
 {{define "rightSide"}}
 <div class="rightSide">
     <div class="ipInfo">
-        <p><strong>Ip info</strong>: <pre><code id="ipInfo"></code><pre></p>
+        <p><strong>Country name</strong>: <div id="countryName">Unknown</div></p>
+        <p><strong>Country code</strong>: <div id="countryCode">Unknown</div></p>
+        <p><strong>Internet service provider</strong>: <div id="internetServiceProvider">Unknown</div></p>
     </div>
     <div class="statistic">
         <p><strong>Page requested</strong>: {{.RequestedCounter}}</p>
