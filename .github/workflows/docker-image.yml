@@ -1,12 +1,7 @@
 name: Docker Image CI
 
 on:
-  push:
-    paths-ignore: "**.md"
-    branches: [ "main" ]
-  pull_request:
-    paths-ignore: "**.md"
-    branches: [ "main" ]
+  [workflow_dispatch]
 
 jobs:
   build-ubuntu-24-04:
@@ -20,4 +15,5 @@ jobs:
       run: docker build . --file Dockerfile --tag strumeg/httpinfo:latest
     - name: Push image to Docker Hub
       run: |
+        docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
         docker push strumeg/httpinfo:latest
