@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"strings"
 )
 
 var indexTemplate *template.Template
@@ -31,9 +32,15 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	header := make(map[string][]string, headersCountLimit)
 	counter := 0
 	for key, value := range r.Header {
-		header[key] = value
+		if strings.ToLower(key) == "accept" {
+			header[key] = strings.Split(value[0], ";")
+		} else if strings.ToLower(key) == "sec-ch-ua" {
+			header[key] = strings.Split(value[0], ",")
+		} else {
+			header[key] = value
+		}
 		counter++
-		if counter > len(header)-1 {
+		if counter > int(headersCountLimit)-1 || counter > len(r.Header)-1 {
 			break
 		}
 	}
@@ -42,7 +49,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Method:           r.Method,
 		Url:              r.URL.String(),
 		Proto:            r.Proto,
-		Header:           r.Header,
+		Header:           header,
 		Body:             string(buffer[:n]),
 		ContentLength:    r.ContentLength,
 		Host:             r.Host,
