@@ -32,9 +32,9 @@
     gap: 5px;
     padding: 25px 50px 25px 50px;
     border-radius: 30px;
-    background: linear-gradient(145deg, #f0f0f0, #cacaca);
-    box-shadow:  30px 30px 60px #808080,
-                -30px -30px 60px #ffffff;
+    background: #e0e0e0;
+    box-shadow: inset 9px 9px 18px #777777,
+            inset -9px -9px 18px #ffffff;
 }
 
 .rightSide {
@@ -44,7 +44,7 @@
     gap: 5px;
     padding: 25px 50px 25px 50px;
     border-radius: 30px;
-    background: linear-gradient(145deg, #f0f0f0, #cacaca);
-    box-shadow:  30px 30px 60px #808080,
-                -30px -30px 60px #ffffff;
+    background: #e0e0e0;
+    box-shadow: inset 9px 9px 18px #777777,
+            inset -9px -9px 18px #ffffff;
 }
