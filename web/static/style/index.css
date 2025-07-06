@@ -1,8 +1,15 @@
+body {
+    overflow: auto;
+    margin: 0px;
+}
+
 .app {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 30px;
+    margin: 5px;
     font-family: 'Courier New', monospace;
 }
 
@@ -23,6 +30,16 @@
     background: #e0e0e0;
     box-shadow:  30px 30px 60px #808080,
                 -30px -30px 60px #ffffff;
+}
+
+.requestHeaderItem {
+    margin-left: -20px;
+}
+
+.requestHeaderValue {
+    margin-left: -10px;
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 .leftSide {
@@ -47,4 +64,23 @@
     background: #e0e0e0;
     box-shadow: inset 9px 9px 18px #777777,
             inset -9px -9px 18px #ffffff;
+}
+
+@media (max-width: 1000px) {
+    div.app {
+        position: absolute;
+        gap: 15px;
+    }
+    div.contentLayout {
+        gap: 10px;
+        margin: 5px;
+        padding: 10px;
+        border-radius: 35px;
+    }
+    div.leftSide {
+        padding: 0px 25px 0px 25px;
+    }
+    div.rightSide {
+        padding: 0px 25px 0px 25px;
+    }
 }

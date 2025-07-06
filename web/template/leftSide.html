@@ -10,9 +10,11 @@
         <p><strong>Header</strong>:</p>
         <ul>
             {{range $key, $value := .Header}}
-                <li><strong>{{$key}}</strong>: 
+                <li class="requestHeaderItem"><strong>{{$key}}</strong>: 
                     {{range $value}}
-                        {{.}}
+                        <span class="requestHeaderValue">
+                            {{.}}
+                        </span>
                     {{end}}
                 </li>
             {{end}}
