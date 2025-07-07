@@ -22,6 +22,7 @@ body {
     display: flex;
     width: fit-content;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 25px;
     margin: 25px;
@@ -58,6 +59,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex: 1;
     gap: 5px;
     padding: 25px 50px 25px 50px;
     border-radius: 30px;
