@@ -1,7 +1,7 @@
-# Http-client info
+# Http request info
 
 HTML page with request info
 
-Requested counter
-
 IP info
+
+Requested counter
