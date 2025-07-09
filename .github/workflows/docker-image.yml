@@ -39,4 +39,4 @@ jobs:
         push: true
         tags: |
           ${{ vars.DOCKER_HUB_USER }}/${{ github.event.repository.name }}:latest
-          ghcr.io/${{ REPOSITORY_OWNER }}/${{ github.event.repository.name }}:latest
+          ghcr.io/${{ env.REPOSITORY_OWNER }}/${{ github.event.repository.name }}:latest
