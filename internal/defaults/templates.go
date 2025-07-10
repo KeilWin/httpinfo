@@ -1,39 +1,39 @@
 package defaults
 
 const (
-	indexTemplate     = "web/template/index.html"
-	appTemplate       = "web/template/app.html"
-	headerTemplate    = "web/template/header.html"
-	contentTemplate   = "web/template/content.html"
-	footerTemplate    = "web/template/footer.html"
-	leftSideTemplate  = "web/template/leftSide.html"
-	rightSideTemplate = "web/template/rightSide.html"
+	indexTemplatePath     = "web/template/index.html"
+	appTemplatePath       = "web/template/app.html"
+	headerTemplatePath    = "web/template/header.html"
+	contentTemplatePath   = "web/template/content.html"
+	footerTemplatePath    = "web/template/footer.html"
+	leftSideTemplatePath  = "web/template/leftSide.html"
+	rightSideTemplatePath = "web/template/rightSide.html"
 )
 
-func GetIndexTemplate() string {
-	return indexTemplate
+func GetIndexTemplatePath() string {
+	return indexTemplatePath
 }
 
-func GetAppTemplate() string {
-	return appTemplate
+func GetAppTemplatePath() string {
+	return appTemplatePath
 }
 
-func GetHeaderTemplate() string {
-	return headerTemplate
+func GetHeaderTemplatePath() string {
+	return headerTemplatePath
 }
 
-func GetContentTemplate() string {
-	return contentTemplate
+func GetContentTemplatePath() string {
+	return contentTemplatePath
 }
 
-func GetFooterTemplate() string {
-	return footerTemplate
+func GetFooterTemplatePath() string {
+	return footerTemplatePath
 }
 
-func GetLeftSideTemplate() string {
-	return leftSideTemplate
+func GetLeftSideTemplatePath() string {
+	return leftSideTemplatePath
 }
 
-func GetRightSideTemplate() string {
-	return rightSideTemplate
+func GetRightSideTemplatePath() string {
+	return rightSideTemplatePath
 }
