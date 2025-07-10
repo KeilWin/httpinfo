@@ -10,6 +10,8 @@ type ServerConfig struct {
 	// SSL
 	Crt string
 	Key string
+
+	TemplateCfg *TemplatesConfig
 }
 
 type ServerStats struct {

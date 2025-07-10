@@ -7,6 +7,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	df "httpinfo/internal/defaults"
 )
 
 var serverConfig *ServerConfig
@@ -19,7 +21,31 @@ func newServerStatsForDump() *ServerStatsForDump {
 	}
 }
 
+func newTemplateConfig() *TemplatesConfig {
+	return &TemplatesConfig{
+		App:       df.GetAppTemplatePath(),
+		Header:    df.GetHeaderTemplatePath(),
+		Content:   df.GetContentTemplatePath(),
+		LeftSide:  df.GetLeftSideTemplatePath(),
+		RightSide: df.GetRightSideTemplatePath(),
+		Footer:    df.GetFooterTemplatePath(),
+	}
+}
+
+func NewServerConfig() *ServerConfig {
+	return &ServerConfig{
+		TemplateCfg: newTemplateConfig(),
+	}
+}
+
 func SetServerConfig(cfg *ServerConfig) {
+	if _, err := os.Stat(cfg.Crt); err != nil {
+		log.Fatalf("Certificate SLL file not exists: %s", cfg.Crt)
+	}
+
+	if _, err := os.Stat(cfg.Key); err != nil {
+		log.Fatalf("Key SLL file not exists: %s", cfg.Key)
+	}
 	serverConfig = cfg
 }
 
