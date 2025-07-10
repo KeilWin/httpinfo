@@ -5,13 +5,14 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-	"httpinfo/internal/defaults"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+
+	df "httpinfo/internal/defaults"
 )
 
 func main() {
@@ -20,19 +21,19 @@ func main() {
 	var keyPath string
 
 	var indexTemplatePath string
-	appTemplatePath := defaults.DefaultAppTemplate
-	headerTemplatePath := defaults.DefaultHeaderTemplate
-	contentTemplatePath := defaults.DefaultContentTemplate
-	footerTemplatePath := defaults.DefaultFooterTemplate
-	leftSideTemplatePath := defaults.DefaultLeftSideTemplate
-	rigthSideTemplatePath := defaults.DefaultRightSideTemplate
+	appTemplatePath := df.GetAppTemplate()
+	headerTemplatePath := df.GetHeaderTemplate()
+	contentTemplatePath := df.GetContentTemplate()
+	footerTemplatePath := df.GetFooterTemplate()
+	leftSideTemplatePath := df.GetLeftSideTemplate()
+	rigthSideTemplatePath := df.GetRightSideTemplate()
 
 	var dumpPath string
-	flag.StringVar(&appPort, "app-port", defaults.DefaultAppPort, "Application port")
-	flag.StringVar(&crtPath, "crt-path", defaults.DefaultCrtPath, "Certificate SSL path")
-	flag.StringVar(&keyPath, "key-path", defaults.DefaultKeyPath, "Key SSL path")
-	flag.StringVar(&indexTemplatePath, "index-template-path", defaults.DefaultIndexTemplate, "Index template path")
-	flag.StringVar(&dumpPath, "dump-path", defaults.DefaultDumpPath, "Dump statistic path")
+	flag.StringVar(&appPort, "app-port", df.GetAppPort(), "Application port")
+	flag.StringVar(&crtPath, "crt-path", df.GetCrtPath(), "Certificate SSL path")
+	flag.StringVar(&keyPath, "key-path", df.GetKeyPath(), "Key SSL path")
+	flag.StringVar(&indexTemplatePath, "index-template-path", df.GetIndexTemplate(), "Index template path")
+	flag.StringVar(&dumpPath, "dump-path", df.GetDumpPath(), "Dump statistic path")
 	flag.Parse()
 
 	{

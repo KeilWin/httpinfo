@@ -1,5 +1,14 @@
 package defaults
 
-const DefaultAppPort = ":8080"
+const (
+	appPort  = ":8080"
+	dumpPath = "/app/stats/dump.json"
+)
 
-const DefaultDumpPath = "/app/stats/dump.json"
+func GetAppPort() string {
+	return appPort
+}
+
+func GetDumpPath() string {
+	return dumpPath
+}
