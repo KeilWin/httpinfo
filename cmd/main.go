@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
+	"httpinfo/internal/defaults"
 	"io"
 	"log"
 	"net/http"
@@ -19,19 +20,19 @@ func main() {
 	var keyPath string
 
 	var indexTemplatePath string
-	appTemplatePath := defaultAppTemplate
-	headerTemplatePath := defaultHeaderTemplate
-	contentTemplatePath := defaultContentTemplate
-	footerTemplatePath := defaultFooterTemplate
-	leftSideTemplatePath := defaultLeftSideTemplate
-	rigthSideTemplatePath := defaultRightSideTemplate
+	appTemplatePath := defaults.DefaultAppTemplate
+	headerTemplatePath := defaults.DefaultHeaderTemplate
+	contentTemplatePath := defaults.DefaultContentTemplate
+	footerTemplatePath := defaults.DefaultFooterTemplate
+	leftSideTemplatePath := defaults.DefaultLeftSideTemplate
+	rigthSideTemplatePath := defaults.DefaultRightSideTemplate
 
 	var dumpPath string
-	flag.StringVar(&appPort, "app-port", defaultAppPort, "Application port")
-	flag.StringVar(&crtPath, "crt-path", defaultCrtPath, "Certificate SSL path")
-	flag.StringVar(&keyPath, "key-path", defaultKeyPath, "Key SSL path")
-	flag.StringVar(&indexTemplatePath, "index-template-path", defaultIndexTemplate, "Index template path")
-	flag.StringVar(&dumpPath, "dump-path", defaultDumpPath, "Dump statistic path")
+	flag.StringVar(&appPort, "app-port", defaults.DefaultAppPort, "Application port")
+	flag.StringVar(&crtPath, "crt-path", defaults.DefaultCrtPath, "Certificate SSL path")
+	flag.StringVar(&keyPath, "key-path", defaults.DefaultKeyPath, "Key SSL path")
+	flag.StringVar(&indexTemplatePath, "index-template-path", defaults.DefaultIndexTemplate, "Index template path")
+	flag.StringVar(&dumpPath, "dump-path", defaults.DefaultDumpPath, "Dump statistic path")
 	flag.Parse()
 
 	{

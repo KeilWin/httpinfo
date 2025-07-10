@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+
+	"httpinfo/internal/defaults"
 )
 
 var indexTemplate *template.Template
@@ -17,7 +19,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	serverStats.RequestedCounter.Add(1)
 
-	bodyLimitInBytes := GetHomeHandlerBodyBytesLimitInBytes()
+	bodyLimitInBytes := defaults.GetHomeHandlerBodyBytesLimitInBytes()
 	limitedReader := io.LimitReader(r.Body, bodyLimitInBytes)
 
 	buffer := make([]byte, bodyLimitInBytes)
@@ -27,7 +29,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	headersCountLimit := GetHomeHandlerHeadersCountLimit()
+	headersCountLimit := defaults.GetHomeHandlerHeadersCountLimit()
 	header := make(map[string][]string, headersCountLimit)
 	counter := 0
 	for key, value := range r.Header {
