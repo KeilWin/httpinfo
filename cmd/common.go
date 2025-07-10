@@ -31,13 +31,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	header := make(map[string][]string, headersCountLimit)
 	counter := 0
 	for key, value := range r.Header {
-		// if strings.ToLower(key) == "accept" {
-		// 	header[key] = strings.Split(value[0], ";")
-		// } else if strings.ToLower(key) == "sec-ch-ua" {
-		// 	header[key] = strings.Split(value[0], ",")
-		// } else {
-		// 	header[key] = value
-		// }
 		header[key] = value
 		counter++
 		if counter > int(headersCountLimit)-1 || counter > len(r.Header)-1 {
