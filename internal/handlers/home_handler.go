@@ -1,23 +1,16 @@
-package main
+package handlers
 
 import (
-	"html/template"
+	"httpinfo/internal/defaults"
 	"io"
 	"net/http"
 )
-
-var indexTemplate *template.Template
-var serverStats = ServerStats{}
-
-func FaviconHandler(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Not found", http.StatusNotFound)
-}
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	serverStats.RequestedCounter.Add(1)
 
-	bodyLimitInBytes := GetHomeHandlerBodyBytesLimitInBytes()
+	bodyLimitInBytes := defaults.GetHomeHandlerBodyBytesLimitInBytes()
 	limitedReader := io.LimitReader(r.Body, bodyLimitInBytes)
 
 	buffer := make([]byte, bodyLimitInBytes)
@@ -27,17 +20,10 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	headersCountLimit := GetHomeHandlerHeadersCountLimit()
+	headersCountLimit := defaults.GetHomeHandlerHeadersCountLimit()
 	header := make(map[string][]string, headersCountLimit)
 	counter := 0
 	for key, value := range r.Header {
-		// if strings.ToLower(key) == "accept" {
-		// 	header[key] = strings.Split(value[0], ";")
-		// } else if strings.ToLower(key) == "sec-ch-ua" {
-		// 	header[key] = strings.Split(value[0], ",")
-		// } else {
-		// 	header[key] = value
-		// }
 		header[key] = value
 		counter++
 		if counter > int(headersCountLimit)-1 || counter > len(r.Header)-1 {

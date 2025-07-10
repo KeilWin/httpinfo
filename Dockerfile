@@ -7,6 +7,7 @@ COPY ./go.mod ./
 RUN go mod download
 
 COPY ./cmd ./cmd
+COPY ./internal ./internal
 
 WORKDIR /build/cmd
 
