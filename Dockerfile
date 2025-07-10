@@ -14,6 +14,7 @@ WORKDIR /build/cmd
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o httpinfo
 
 FROM builder AS tester
+WORKDIR /build
 RUN go test -v ./...
 
 FROM alpine:3.22 AS runner
