@@ -13,7 +13,8 @@ import (
 
 func main() {
 	serverCfg := handlers.NewServerConfig()
-	common.ParseCmdArgs(serverCfg)
+	common.InitCmdArgs(serverCfg)
+	common.ParseCmdArgs()
 
 	handlers.SetServerConfig(serverCfg)
 	handlers.LoadServerStats(serverCfg.Dump)
