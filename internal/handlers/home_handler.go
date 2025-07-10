@@ -1,19 +1,10 @@
-package main
+package handlers
 
 import (
-	"html/template"
+	"httpinfo/internal/defaults"
 	"io"
 	"net/http"
-
-	"httpinfo/internal/defaults"
 )
-
-var indexTemplate *template.Template
-var serverStats = ServerStats{}
-
-func FaviconHandler(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Not found", http.StatusNotFound)
-}
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
