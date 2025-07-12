@@ -1,11 +1,13 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"httpinfo/internal/common"
 	"httpinfo/internal/handlers"
@@ -38,5 +40,23 @@ func main() {
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 	go handlers.OnShutdown(sigs)
 
-	log.Fatalln(http.ListenAndServeTLS(serverCfg.Port, serverCfg.Crt, serverCfg.Key, mux))
+	server := &http.Server{
+		Addr:    serverCfg.Port,
+		Handler: mux,
+		TLSConfig: &tls.Config{
+			MinVersion: tls.VersionTLS12,
+			MaxVersion: tls.VersionTLS13,
+
+			SessionTicketsDisabled: false,
+			Renegotiation:          tls.RenegotiateNever,
+
+			NextProtos: []string{"h2", "http/1.1"},
+		},
+		MaxHeaderBytes: 1 << 18,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		IdleTimeout:    10 * time.Second,
+	}
+
+	log.Fatalln(server.ListenAndServeTLS(serverCfg.Crt, serverCfg.Key))
 }
