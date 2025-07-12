@@ -16,6 +16,11 @@ func main() {
 	common.InitCmdArgs(serverCfg)
 	common.ParseCmdArgs()
 
+	logFile, err := os.OpenFile(serverCfg.Log, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal("Failed to open log file:", err)
+	}
+	log.SetOutput(logFile)
 	handlers.SetServerConfig(serverCfg)
 	handlers.LoadServerStats(serverCfg.Dump)
 	handlers.LoadTemplates(serverCfg.TemplateCfg)
@@ -32,5 +37,5 @@ func main() {
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 	go handlers.OnShutdown(sigs)
 
-	log.Fatal(http.ListenAndServeTLS(serverCfg.Port, serverCfg.Crt, serverCfg.Key, mux))
+	log.Fatalln(http.ListenAndServeTLS(serverCfg.Port, serverCfg.Crt, serverCfg.Key, mux))
 }
