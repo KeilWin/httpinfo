@@ -1,7 +1,7 @@
 package defaults
 
 const (
-	logPath = "/logs/httpinfo.log"
+	logPath = "/app/logs/httpinfo.log"
 )
 
 func GetLogPath() string {
