@@ -21,6 +21,7 @@ func main() {
 		log.Fatal("Failed to open log file:", err)
 	}
 	log.SetOutput(logFile)
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Llongfile | log.LUTC | log.Lmsgprefix)
 	handlers.SetServerConfig(serverCfg)
 	handlers.LoadServerStats(serverCfg.Dump)
 	handlers.LoadTemplates(serverCfg.TemplateCfg)
