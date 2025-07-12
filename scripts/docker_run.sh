@@ -1,1 +1,1 @@
-docker run -d -v ./ssl:/etc/ssl -v ./stats:/app/stats -p 8080:8080 --name httpinfo-dev strumeg/httpinfo:latest
+docker run -d -v ./ssl:/etc/ssl -v ./stats:/app/stats -v ./logs:/app/logs -p 8080:8080 --name httpinfo-dev strumeg/httpinfo:latest

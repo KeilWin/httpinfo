@@ -47,6 +47,10 @@ func TestCreateServerConfigWithEmptyCmdArgs(t *testing.T) {
 	if serverCfg.TemplateCfg.Index != df.GetIndexTemplatePath() {
 		t.Errorf("Index template path is unexpected: %s", serverCfg.TemplateCfg.Index)
 	}
+
+	if serverCfg.Log != df.GetLogPath() {
+		t.Errorf("Log path is unexpected: %s", serverCfg.Log)
+	}
 }
 
 func TestCreateServerConfigWithNonEmptyCmdArgs(t *testing.T) {
@@ -62,6 +66,7 @@ func TestCreateServerConfigWithNonEmptyCmdArgs(t *testing.T) {
 		expectedCrtPath           = "/TEST/CRT_PATH.crt"
 		expectedKeyPath           = "/TEST/KEY_PATH.key"
 		expectedIndexTemplatePath = "/TEST/INDEX_TEMPLATE_PATH.html"
+		expectedLogPath           = "/TEST/LOG_PATH.LOG"
 	)
 	os.Args = append(os.Args,
 		"--app-port", expectedAppPort,
@@ -69,6 +74,7 @@ func TestCreateServerConfigWithNonEmptyCmdArgs(t *testing.T) {
 		"--crt-path", expectedCrtPath,
 		"--key-path", expectedKeyPath,
 		"--index-template-path", expectedIndexTemplatePath,
+		"--log-path", expectedLogPath,
 	)
 	t.Logf("os.Args: %v", os.Args)
 
@@ -93,5 +99,9 @@ func TestCreateServerConfigWithNonEmptyCmdArgs(t *testing.T) {
 
 	if serverCfg.TemplateCfg.Index != expectedIndexTemplatePath {
 		t.Errorf("Index template path is unexpected: %s", serverCfg.TemplateCfg.Index)
+	}
+
+	if serverCfg.Log != expectedLogPath {
+		t.Errorf("Log path is unexpected: %s", serverCfg.Log)
 	}
 }

@@ -6,6 +6,7 @@ import (
 
 type ServerConfig struct {
 	Port string
+	Log  string
 	Dump string
 	// SSL
 	Crt string
