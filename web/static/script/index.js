@@ -1,13 +1,15 @@
 
+const GOOGLE_DNS_8 = "8.8.8.8";
+
 function GetDefaultIp() {
-    return "8.8.8.8";
+    return GOOGLE_DNS_8;
 }
 
 function ExtractIp(ipElementId) {
     let ipElement = document.getElementById(ipElementId);
     if (!ipElement)
         throw new Error("No element with id.", ipElementId);
-    let ip = ipElement.textContent.split(":")[0];
+    let ip = ipElement.textContent;
     return ip.indexOf("[") !== -1 ? GetDefaultIp() : ip;
 }
 

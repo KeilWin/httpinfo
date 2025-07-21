@@ -4,6 +4,7 @@ import (
 	"httpinfo/internal/defaults"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,6 +32,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	var hostAndPort []string
+	if r.RemoteAddr[0] == '[' {
+		hostAndPort = strings.Split(r.RemoteAddr[1:], "]:")
+	} else {
+		hostAndPort = strings.Split(r.RemoteAddr, ":")
+	}
+	if len(hostAndPort) != 2 {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	req := Request{
 		Method:           r.Method,
 		Url:              r.URL.String(),
@@ -39,7 +51,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Body:             string(buffer[:n]),
 		ContentLength:    r.ContentLength,
 		Host:             r.Host,
-		RemoteAddr:       r.RemoteAddr,
+		RemoteAddr:       hostAndPort[0],
+		RemotePort:       hostAndPort[1],
 		RequestURI:       r.RequestURI,
 		RequestedCounter: serverStats.RequestedCounter.Load(),
 	}

@@ -19,7 +19,9 @@
                 "--key-path",
                 "./ssl/server.key",
                 "--dump-path",
-                "./temp/dump.json"
+                "./temp/dump.json",
+                "--log-path",
+                "./logs/httpinfo.log",
             ]
         }
     ]

@@ -46,6 +46,7 @@ type Request struct {
 	ContentLength    int64
 	Host             string
 	RemoteAddr       string
+	RemotePort       string
 	RequestURI       string
 	RequestedCounter uint64
 }

@@ -2,12 +2,13 @@
 <div class="leftSide">
     <div class="requestInfo">
         <p><strong>Address</strong>: <span id="remoteAddr">{{.RemoteAddr}}</span></p>
-        <p><strong>Proto</strong>: {{.Proto}}</p>
+        <p><strong>Port</strong>: <span>{{.RemotePort}}</span></p>
+        <p><strong>Protocol</strong>: {{.Proto}}</p>
         <p><strong>Method</strong>: {{.Method}}</p>
         <p><strong>Host</strong>: {{.Host}}</p>
         <p><strong>Url</strong>: {{.Url}}</p>
         <p><strong>Request URI</strong>: {{.RequestURI}}</p>
-        <p><strong>Header</strong>:</p>
+        <p><strong>Headers</strong>:</p>
         <ul>
             {{range $key, $value := .Header}}
                 <li class="requestHeaderItem"><strong>{{$key}}</strong>: 
@@ -19,8 +20,10 @@
                 </li>
             {{end}}
         </ul>
-        <p><strong>Body</strong>: {{.Body}}</p>
         <p><strong>Content Length</strong>: {{.ContentLength}}</p>
+        {{if ne .ContentLength 0}}
+            <p><strong>Body</strong>: {{.Body}}</p>
+        {{end}}
     </div>
 </div>
 {{end}}
