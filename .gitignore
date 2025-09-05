@@ -23,6 +23,7 @@
 *.db
 *.tar
 
+bin/
 ssl/
 temp/
 stats/

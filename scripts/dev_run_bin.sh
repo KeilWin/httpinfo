@@ -1,0 +1,1 @@
+./bin/httpinfo --app-port :8080 --crt-path ./bin/ssl/server.crt --key-path ./bin/ssl/server.key --dump-path ./bin/temp/dump.json --log-path ./bin/logs/httpinfo.log

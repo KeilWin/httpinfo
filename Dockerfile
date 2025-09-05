@@ -13,7 +13,10 @@ RUN mkdir stats
 
 WORKDIR /build/cmd
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o httpinfo
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+    -o httpinfo \
+    -trimpath \
+    -ldflags="-s -w"
 
 FROM builder AS tester
 WORKDIR /build
