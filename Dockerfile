@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine3.22 as builder
+FROM golang:1.23-bookworm AS builder
 
 WORKDIR /build
 
@@ -9,6 +9,8 @@ RUN go mod download
 COPY ./cmd ./cmd
 COPY ./internal ./internal
 
+RUN mkdir stats
+
 WORKDIR /build/cmd
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o httpinfo
@@ -17,14 +19,13 @@ FROM builder AS tester
 WORKDIR /build
 RUN go test -v ./...
 
-FROM alpine:3.22 AS runner
+FROM gcr.io/distroless/static-debian12 AS runner
 
 WORKDIR /app
 
 COPY --from=builder  /build/cmd/httpinfo .
+COPY --from=builder /build/stats ./stats
 COPY ./web ./web
-
-RUN mkdir stats
 
 EXPOSE 8080
 
