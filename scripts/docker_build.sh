@@ -1,1 +1,1 @@
-docker build --tag strumeg/httpinfo:latest .
+docker build --tag $DOCKER_DEV_IMAGE_NAME .
