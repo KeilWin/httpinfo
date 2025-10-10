@@ -1,0 +1,11 @@
+@import url("./common/hill.module.css");
+@import url("./common/pit.module.css");
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    margin: 25px 0 0 0;
+
+    border-radius: 50px 50px 0px 0px;
+}

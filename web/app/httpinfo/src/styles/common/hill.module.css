@@ -1,0 +1,14 @@
+.hill {
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin: 25px;
+    padding: 25px;
+    border-radius: 50px;
+    background: #e0e0e0;
+    box-shadow:  30px 30px 60px #808080,
+                -30px -30px 60px #ffffff;
+}
