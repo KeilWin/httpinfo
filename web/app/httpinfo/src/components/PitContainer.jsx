@@ -1,4 +1,4 @@
-import styles from "../styles/common/pit.module.css";
+import styles from "~/styles/common/pit.module.css";
 
 export default function PitContainer(props) {
     return (

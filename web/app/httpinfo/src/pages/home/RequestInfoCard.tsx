@@ -1,7 +1,6 @@
-import { For, Show, createSignal, useContext } from "solid-js";
-import { getRequestEvent, render, RequestEvent } from "solid-js/web";
+import { For } from "solid-js";
 
-import PitContainer from "../../components/PitContainer";
+import PitContainer from "~/components/PitContainer";
 
 import { serverData } from "~/store/ServerStore";
 
