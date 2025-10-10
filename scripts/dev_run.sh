@@ -1,1 +1,1 @@
-go run ./cmd --app-port :8080 --crt-path ./ssl/server.crt --key-path ./ssl/server.key --dump-path ./temp/dump.json --log-path ./logs/httpinfo.log
+go run ./cmd --app-port :8080 --crt-path ./bin/ssl/server.crt --key-path ./bin/ssl/server.key --dump-path ./bin/temp/dump.json --log-path ./bin/logs/httpinfo.log

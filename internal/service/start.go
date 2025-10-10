@@ -19,7 +19,7 @@ func Start() {
 	handlers.LoadServerStats(serverCfg.Dump)
 	handlers.LoadTemplates(serverCfg.TemplateCfg)
 
-	mux := NewServeMux()
+	mux := NewServeMux("./web/app/httpinfo/dist")
 
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)

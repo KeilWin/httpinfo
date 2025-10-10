@@ -1,7 +1,0 @@
-@import url("../common/hill.module.css");
-
-.layout {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}

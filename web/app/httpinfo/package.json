@@ -1,22 +1,18 @@
 {
-  "name": "example-bare",
+  "name": "httpinfo",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@solidjs/router": "^0.15.3",
-    "@solidjs/start": "^1.1.0",
-    "solid-js": "^1.9.5",
-    "vinxi": "^0.5.7"
-  },
-  "engines": {
-    "node": ">=22"
+    "solid-js": "^1.9.9"
   },
   "devDependencies": {
-    "vite": "^7.1.9",
-    "vite-plugin-solid": "^2.11.9"
+    "vite": "^7.1.7",
+    "vite-plugin-solid": "^2.11.8"
   }
 }
