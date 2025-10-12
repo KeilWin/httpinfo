@@ -1,9 +1,5 @@
 package handlers
 
-import (
-	"sync/atomic"
-)
-
 type ServerConfig struct {
 	Port string
 	Log  string
@@ -11,30 +7,6 @@ type ServerConfig struct {
 	// SSL
 	Crt string
 	Key string
-
-	TemplateCfg *TemplatesConfig
-}
-
-type ServerStats struct {
-	RequestedCounter atomic.Uint64 `json:"requestedCounter"`
-}
-
-type ServerStatsForDump struct {
-	RequestedCounter uint64 `json:"requestedCounter"`
-}
-
-type TemplatesConfig struct {
-	Index string
-
-	App string
-
-	Header string
-
-	Content   string
-	LeftSide  string
-	RightSide string
-
-	Footer string
 }
 
 type Request struct {

@@ -3,6 +3,7 @@ package service
 import (
 	"httpinfo/internal/common"
 	"httpinfo/internal/handlers"
+	"httpinfo/internal/middlewares"
 	"log"
 	"os"
 	"os/signal"
@@ -16,8 +17,7 @@ func Start() {
 
 	InitLogger(serverCfg)
 	handlers.SetServerConfig(serverCfg)
-	handlers.LoadServerStats(serverCfg.Dump)
-	handlers.LoadTemplates(serverCfg.TemplateCfg)
+	middlewares.LoadServerStats(serverCfg.Dump)
 
 	mux := NewServeMux("./web/app/httpinfo/dist")
 

@@ -44,10 +44,6 @@ func TestCreateServerConfigWithEmptyCmdArgs(t *testing.T) {
 		t.Errorf("SSL key path is unexpected: %s", serverCfg.Key)
 	}
 
-	if serverCfg.TemplateCfg.Index != df.GetIndexTemplatePath() {
-		t.Errorf("Index template path is unexpected: %s", serverCfg.TemplateCfg.Index)
-	}
-
 	if serverCfg.Log != df.GetLogPath() {
 		t.Errorf("Log path is unexpected: %s", serverCfg.Log)
 	}
@@ -73,7 +69,6 @@ func TestCreateServerConfigWithNonEmptyCmdArgs(t *testing.T) {
 		"--dump-path", expectedDumpPath,
 		"--crt-path", expectedCrtPath,
 		"--key-path", expectedKeyPath,
-		"--index-template-path", expectedIndexTemplatePath,
 		"--log-path", expectedLogPath,
 	)
 	t.Logf("os.Args: %v", os.Args)
@@ -95,10 +90,6 @@ func TestCreateServerConfigWithNonEmptyCmdArgs(t *testing.T) {
 
 	if serverCfg.Key != expectedKeyPath {
 		t.Errorf("SSL key path is unexpected: %s", serverCfg.Key)
-	}
-
-	if serverCfg.TemplateCfg.Index != expectedIndexTemplatePath {
-		t.Errorf("Index template path is unexpected: %s", serverCfg.TemplateCfg.Index)
 	}
 
 	if serverCfg.Log != expectedLogPath {
