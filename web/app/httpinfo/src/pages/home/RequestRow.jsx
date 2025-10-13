@@ -1,9 +1,9 @@
 import styles from "../../styles/pages/home/RequestRow.module.css";
 
-export default function RequestRow() {
+export default function RequestRow(props) {
     return (
     <p className={styles.requestRow}>
-        <strong>Param</strong>: <span>some value</span>
+        <strong>{props.key}</strong>: <span>{props.value}</span>
     </p>
     )
 }

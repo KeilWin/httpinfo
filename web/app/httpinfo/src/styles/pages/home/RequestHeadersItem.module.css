@@ -1,3 +1,11 @@
 .request-headers-item {
-    
+    overflow-wrap: anywhere;
+}
+
+.headers-key {
+    overflow-wrap: anywhere;
+}
+
+.headers-value {
+    overflow-wrap: anywhere;
 }
