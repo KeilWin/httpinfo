@@ -1,0 +1,10 @@
+@import url("./components/HillContainer.module.css");
+
+.header {
+    display: flex;
+    flex-direction: row;
+    width: stretch;
+    margin: 0 10px 25px 10px;
+  
+    border-radius: 0 0 50px 50px;
+  }

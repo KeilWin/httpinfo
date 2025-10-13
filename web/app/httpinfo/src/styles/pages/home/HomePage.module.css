@@ -1,0 +1,23 @@
+@import url("../../components/HillContainer.module.css");
+
+.home-page {
+
+}
+
+.headers-title {
+    margin: 0 0 0 0;
+}
+
+.headers-item {
+flex: content;
+flex-wrap: wrap;
+}
+
+.headers-row-key {
+word-break: keep-all;
+}
+
+.headers-row-value {
+word-break: break-all;
+overflow-wrap: break-word;
+}

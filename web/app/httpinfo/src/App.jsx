@@ -1,10 +1,15 @@
-import './styles/App.css'
+import Header from './pages/Header';
+import Footer from './pages/Footer';
+import HomePage from './pages/home/HomePage';
 
-function App() {
+import './styles/App.css';
 
+const App = (props) => {
   return (
     <>
-      <h1>Hello</h1>
+      <Header />
+      <HomePage />
+      <Footer />
     </>
   )
 }
