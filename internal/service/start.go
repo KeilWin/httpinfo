@@ -17,8 +17,8 @@ func Start() {
 
 	InitLogger(serverCfg)
 	handlers.SetServerConfig(serverCfg)
+	handlers.LoadSpaTemplate("./web/app/httpinfo/dist/index.html")
 	middlewares.LoadServerStats(serverCfg.Dump)
-	LoadSpaTemplate("./web/app/httpinfo/dist/index.html")
 
 	mux := NewServeMux("./web/app/httpinfo/dist")
 

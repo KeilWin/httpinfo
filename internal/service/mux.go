@@ -1,85 +1,61 @@
 package service
 
 import (
-	"html/template"
+	"crypto/tls"
+	"fmt"
+	"httpinfo/internal/handlers"
 	"httpinfo/internal/middlewares"
 	"io"
 	"log"
+	"net"
 	"net/http"
-	"os"
-	"path/filepath"
-	"strconv"
-	"strings"
 )
 
-type RequestToSpa struct {
-	IpAddress     string              `json:"ipAddress"`
-	Port          string              `json:"port"`
-	Protocol      string              `json:"protocol"`
-	Method        string              `json:"method"`
-	Host          string              `json:"host"`
-	Url           string              `json:"url"`
-	Headers       map[string][]string `json:"headers"`
-	ContentLength string              `json:"contentLength"`
-	Body          string              `json:"body"`
-}
-
-var spaTemplate *template.Template
-
-func LoadSpaTemplate(spaPath string) {
-	_, err := os.Stat(spaPath)
-	if err != nil {
-		log.Fatalf("Can't find spa(%s): %v", spaPath, err)
+func CheckIpAddress(ipAddress string) error {
+	parsedIp := net.ParseIP(ipAddress)
+	if parsedIp == nil {
+		return fmt.Errorf("IP address structure is wrong: %s", ipAddress)
 	}
-	spaTemplate, err = template.ParseFiles(spaPath)
-	if err != nil {
-		log.Fatalf("Can't parse spa(%s): %v", spaPath, err)
-	}
+	return nil
 }
 
 func NewServeMux(spaPath string) *http.ServeMux {
 	mux := http.NewServeMux()
 
-	fs := http.FileServer(http.Dir(spaPath))
-	mux.HandleFunc("/", middlewares.NewStatsMiddleware(
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	_, err := client.Get("https://golang.org/")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	mux.HandleFunc("/", middlewares.NewStatsMiddleware(handlers.NewHomeHandler(spaPath)))
+
+	mux.HandleFunc("GET /api/ip/{ipAddress}", middlewares.NewStatsMiddleware(
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			path := filepath.Join(spaPath, r.URL.Path)
-			if info, err := os.Stat(path); err == nil && !info.IsDir() {
-				fs.ServeHTTP(w, r)
-				return
-			}
-			defer r.Body.Close()
-			limitedReader := io.LimitReader(r.Body, 1024*1024)
-			buffer := make([]byte, 1024*1024)
-			n, err := limitedReader.Read(buffer)
-			if err != nil && err != io.EOF {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+			ipAddress := r.PathValue("ipAddress")
+			if err := CheckIpAddress(ipAddress); err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
 				return
 			}
 
-			var hostAndPort []string
-			if r.RemoteAddr[0] == '[' {
-				hostAndPort = strings.Split(r.RemoteAddr[1:], "]:")
-			} else {
-				hostAndPort = strings.Split(r.RemoteAddr, ":")
-			}
-			if len(hostAndPort) != 2 {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+			client := NewClient()
+			response, err := client.Get(fmt.Sprintf("https://api.iplocation.net/?ip=%s", ipAddress))
+			if err != nil {
+				log.Printf("Request ip info error(%s): %v", ipAddress, err)
+				http.Error(w, fmt.Sprintf("Can't get ip info: %s", ipAddress), http.StatusInternalServerError)
 				return
 			}
-
-			data := RequestToSpa{
-				IpAddress:     hostAndPort[0],
-				Port:          hostAndPort[1],
-				Protocol:      r.Proto,
-				Method:        r.Method,
-				Host:          r.Host,
-				Url:           r.URL.String(),
-				Headers:       r.Header,
-				ContentLength: strconv.FormatInt(r.ContentLength, 10),
-				Body:          string(buffer[:n]),
+			defer response.Body.Close()
+			body, err := io.ReadAll(response.Body)
+			if err != nil {
+				http.Error(w, fmt.Sprintf("Can't get ip info: %s", ipAddress), http.StatusInternalServerError)
+				return
 			}
-			spaTemplate.Execute(w, data)
+			w.Write(body)
+			w.Header().Add("content-type", "application/json")
 		})))
 
 	return mux
