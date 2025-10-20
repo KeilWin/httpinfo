@@ -4,6 +4,7 @@ type ServerConfig struct {
 	Port string
 	Log  string
 	Dump string
+	Spa  string
 	// SSL
 	Crt string
 	Key string

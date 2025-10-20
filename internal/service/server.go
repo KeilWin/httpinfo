@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"httpinfo/internal/handlers"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -35,6 +36,11 @@ func NewTlsConfig() *tls.Config {
 }
 
 func NewTransport() *http.Transport {
+	isDev := os.Getenv("DEV")
+	var skipInsecureVerify bool
+	if isDev != "" {
+		skipInsecureVerify = true
+	}
 	return &http.Transport{
 		TLSClientConfig: &tls.Config{
 			MinVersion: tls.VersionTLS12,
@@ -58,7 +64,8 @@ func NewTransport() *http.Transport {
 			SessionTicketsDisabled: false,
 			Renegotiation:          tls.RenegotiateNever,
 
-			NextProtos: []string{"http/1.1"},
+			NextProtos:         []string{"http/1.1"},
+			InsecureSkipVerify: skipInsecureVerify,
 		},
 	}
 }

@@ -1,0 +1,15 @@
+name: httpinfo
+
+services:
+  web:
+    build: 
+      context: ..
+      dockerfile: ./build/package/Dockerfile
+    image: KeilWin/httpinfo:latest
+    env_file: ".env"
+    container_name: httpinfo-dev
+    ports:
+      - "443:8080"
+    volumes:
+      - ../bin/ssl:/etc/ssl
+      - ../bin/logs:/app/logs
