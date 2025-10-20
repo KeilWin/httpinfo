@@ -43,3 +43,4 @@ jobs:
         target: runner
         tags: |
           ghcr.io/keilwin/${{ github.event.repository.name }}:latest
+        file: ./build/package/Dockerfile
