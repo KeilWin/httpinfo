@@ -1,66 +1,80 @@
 package handlers
 
 import (
-	"httpinfo/internal/defaults"
+	"html/template"
 	"io"
+	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	serverStats.RequestedCounter.Add(1)
+type RequestToSpa struct {
+	IpAddress     string              `json:"ipAddress"`
+	Port          string              `json:"port"`
+	Protocol      string              `json:"protocol"`
+	Method        string              `json:"method"`
+	Host          string              `json:"host"`
+	Url           string              `json:"url"`
+	Headers       map[string][]string `json:"headers"`
+	ContentLength string              `json:"contentLength"`
+	Body          string              `json:"body"`
+}
 
-	bodyLimitInBytes := defaults.GetHomeHandlerBodyBytesLimitInBytes()
-	limitedReader := io.LimitReader(r.Body, bodyLimitInBytes)
+var spaTemplate *template.Template
 
-	buffer := make([]byte, bodyLimitInBytes)
-	n, err := limitedReader.Read(buffer)
-	if err != nil && err != io.EOF {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+func LoadSpaTemplate(spaPath string) {
+	_, err := os.Stat(spaPath)
+	if err != nil {
+		log.Fatalf("Can't find spa(%s): %v", spaPath, err)
 	}
+	spaTemplate, err = template.ParseFiles(spaPath)
+	if err != nil {
+		log.Fatalf("Can't parse spa(%s): %v", spaPath, err)
+	}
+}
 
-	headersCountLimit := defaults.GetHomeHandlerHeadersCountLimit()
-	header := make(map[string][]string, headersCountLimit)
-	counter := 0
-	for key, value := range r.Header {
-		header[key] = value
-		counter++
-		if counter > int(headersCountLimit)-1 || counter > len(r.Header)-1 {
-			break
+func NewHomeHandler(spaPath string) http.HandlerFunc {
+	fs := http.FileServer(http.Dir(spaPath))
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		path := filepath.Join(spaPath, r.URL.Path)
+		if info, err := os.Stat(path); err == nil && !info.IsDir() {
+			fs.ServeHTTP(w, r)
+			return
 		}
-	}
+		defer r.Body.Close()
+		limitedReader := io.LimitReader(r.Body, 1024*1024)
+		buffer := make([]byte, 1024*1024)
+		n, err := limitedReader.Read(buffer)
+		if err != nil && err != io.EOF {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
-	var hostAndPort []string
-	if r.RemoteAddr[0] == '[' {
-		hostAndPort = strings.Split(r.RemoteAddr[1:], "]:")
-	} else {
-		hostAndPort = strings.Split(r.RemoteAddr, ":")
-	}
-	if len(hostAndPort) != 2 {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		var hostAndPort []string
+		if r.RemoteAddr[0] == '[' {
+			hostAndPort = strings.Split(r.RemoteAddr[1:], "]:")
+		} else {
+			hostAndPort = strings.Split(r.RemoteAddr, ":")
+		}
+		if len(hostAndPort) != 2 {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
-	req := Request{
-		Method:           r.Method,
-		Url:              r.URL.String(),
-		Proto:            r.Proto,
-		Header:           header,
-		Body:             string(buffer[:n]),
-		ContentLength:    r.ContentLength,
-		Host:             r.Host,
-		RemoteAddr:       hostAndPort[0],
-		RemotePort:       hostAndPort[1],
-		RequestURI:       r.RequestURI,
-		RequestedCounter: serverStats.RequestedCounter.Load(),
-	}
-
-	indexTemplate.ExecuteTemplate(w, "index", req)
-
-	w.Header().Set("Connection", "close")
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Header().Set("Sec-Fetch-Mode", "same-origin")
-	w.Header().Set("Sec-Fetch-Site", "same-site")
+		data := RequestToSpa{
+			IpAddress:     hostAndPort[0],
+			Port:          hostAndPort[1],
+			Protocol:      r.Proto,
+			Method:        r.Method,
+			Host:          r.Host,
+			Url:           r.URL.String(),
+			Headers:       r.Header,
+			ContentLength: strconv.FormatInt(r.ContentLength, 10),
+			Body:          string(buffer[:n]),
+		}
+		spaTemplate.Execute(w, data)
+	})
 }

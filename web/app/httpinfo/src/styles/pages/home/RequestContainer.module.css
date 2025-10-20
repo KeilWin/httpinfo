@@ -1,0 +1,9 @@
+@import url("../../components/PitContainer.module.css");
+
+.request-container {
+    flex: 1;
+}
+
+.headers-key {
+    
+}

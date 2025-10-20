@@ -1,0 +1,31 @@
+@import url("./Footer.module.css");
+@import url("./Header.module.css");
+@import url("./components/HillContainer.module.css");
+@import url("./components/PitContainer.module.css");
+@import url("./pages/home/HomePage.module.css");
+@import url("./pages/home/IpInfoContainer.module.css");
+@import url("./pages/home/IpInfoCard.module.css");
+@import url("./pages/home/RequestContainer.module.css");
+@import url("./pages/home/RequestRow.module.css");
+@import url("./pages/home/RequestHeadersList.module.css");
+@import url("./pages/home/RequestHeadersItem.module.css");
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', monospace;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #f5f5f5;
+}
+
+#root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+    height: 100vh;
+    align-items: center;
+}

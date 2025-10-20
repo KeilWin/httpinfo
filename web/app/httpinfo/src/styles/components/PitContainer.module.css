@@ -1,0 +1,12 @@
+.pit {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    gap: 5px;
+    padding: 25px 50px 25px 50px;
+    border-radius: 30px;
+    background: #e0e0e0;
+    box-shadow: inset 9px 9px 18px #777777,
+            inset -9px -9px 18px #ffffff;
+  }
