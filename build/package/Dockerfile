@@ -1,4 +1,4 @@
-FROM node:24.10.0-bookworm as front-builder
+FROM node:24.10.0-bookworm AS front-builder
 
 WORKDIR /build
 

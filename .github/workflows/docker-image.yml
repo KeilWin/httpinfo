@@ -41,6 +41,6 @@ jobs:
       with:
         push: true
         target: runner
+        file: ./build/package/Dockerfile
         tags: |
           ghcr.io/keilwin/${{ github.event.repository.name }}:latest
-        file: ./build/package/Dockerfile
