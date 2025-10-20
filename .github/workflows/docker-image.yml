@@ -26,6 +26,8 @@ jobs:
         echo "REPOSITORY_OWNER=${${{ github.repository_owner }}@L}" >> "${GITHUB_ENV}"
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+      with:
+        file: ./build/package/Dockerfile
     - name: Build and Test
       uses: docker/build-push-action@v6
       with:
